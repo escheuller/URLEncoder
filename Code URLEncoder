@@ -1,0 +1,150 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace URLEncoder
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool validate = false;
+            string pname = "";
+            string aname = "";
+            while (!validate)
+            {
+                Console.Write("What is the project name?: ");
+                pname = Console.ReadLine();
+                validate = validateString(pname);
+                if (!validate)
+                    Console.WriteLine("** Invalid character **");
+            }
+            validate = false;
+            while (!validate)
+            {
+                Console.Write("What is the activity name?: ");
+                aname = Console.ReadLine();
+                validate = validateString(aname);
+                if (!validate)
+                    Console.WriteLine("** Invalid character **");
+            }
+            string replace = "";
+            replace = chngCharacter(pname);
+            Console.WriteLine("Here is your URL");
+          //  string URL = "https://companyserver.com/content/[project_name]/files/[activity_name]/[activity_name]Report.pdf"; alternative way to print URL not using chngCharacter function
+          //  Console.WriteLine(URL.Replace("[project_name]",pname).Replace("[activity_name]",aname).Replace("%", "%25").Replace("<", "%3C").Replace(">", "%3E").Replace("#", "%23").Replace("\"", "%22").Replace(" ", "%20"));
+            Console.Write("https://companyserver.com/content/" + replace);
+
+            replace = chngCharacter(aname);
+            Console.Write("/files/" + replace);
+            Console.Write("/" + replace + "Report.pdf");
+
+
+        }
+        static bool validateString(string vstring)
+        {
+            bool val = true;
+            char[] chArr = vstring.ToCharArray();
+            for (int i = 0; i < chArr.Length; i++)
+            {
+                if ((chArr[i]) < 32)
+                    val = false;
+                if (chArr[i] > 127)
+                    val = false;
+            }
+            return val;
+
+
+        }
+        static string chngCharacter(string vstring)
+        {
+            char[] chArr = vstring.ToCharArray();
+            string temp = "";
+            for (int i = 0; i < chArr.Length; i++)
+            {
+                switch ((int)chArr[i])
+                {
+                    case 60:
+                        temp = temp + "%3C";
+                        break;
+                    case 62:
+                        temp = temp + "%3E";
+                        break;
+                    case 35:
+                        temp = temp + "%23";
+                        break;
+                    case 37:
+                        temp = temp + "%25";
+                        break;
+                    case 34:
+                        temp = temp + "%22";
+                        break;
+                    case 32:
+                        temp = temp + "%20";
+                        break;
+                    case 59:
+                        temp = temp + "%3B";
+                        break;
+                    case 58:
+                        temp = temp + "%3A";
+                        break;
+                    case 47:
+                        temp = temp + "%2F";
+                        break;
+                    case 63:
+                        temp = temp + "%3F";
+                        break;
+                    case 64:
+                        temp = temp + "%40";
+                        break;
+                    case 38:
+                        temp = temp + "%26";
+                        break;
+                    case 61:
+                        temp = temp + "%3D";
+                        break;
+                    case 43:
+                        temp = temp + "%2B";
+                        break;
+                    case 36:
+                        temp = temp + "%24";
+                        break;
+                    case 44:
+                        temp = temp + "%2C";
+                        break;
+                    case 123:
+                        temp = temp + "%7B";
+                        break;
+                    case 125:
+                        temp = temp + "%7D";
+                        break;
+                    case 91:
+                        temp = temp + "%5B";
+                        break;
+                    case 93:
+                        temp = temp + "%5D";
+                        break;
+                    case 124:
+                        temp = temp + "%7C";
+                        break;
+                    case 92:
+                        temp = temp + "%5C";
+                        break;
+                    case 94:
+                        temp = temp + "%5E";
+                        break;
+                    case 96:
+                        temp = temp + "%60";
+                        break;
+                    default:
+                        temp = temp + chArr[i];
+                        break;
+                }
+
+            }
+            return temp;
+        }
+    }
+}
